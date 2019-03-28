@@ -8,8 +8,9 @@ class Dog {
   final String origin;
   final String overview;
   final String history;
+  int isFavorite;
 
-  const Dog({
+  Dog({
     @required this.id,
     @required this.name,
     @required this.icon,
@@ -17,12 +18,14 @@ class Dog {
     @required this.origin,
     @required this.overview,
     @required this.history,
+    @required this.isFavorite,
   })  : assert(id != null),
         assert(name != null),
         assert(icon != null),
         assert(originIcon != null),
         assert(origin != null),
         assert(overview != null),
+        assert(isFavorite != null),
         assert(history != null);
 
   Map<String, dynamic> toMap() {
@@ -34,6 +37,7 @@ class Dog {
     map['origin'] = origin;
     map['overview'] = overview;
     map['history'] = history;
+    map['isFavorite'] = isFavorite;
 
     return map;
   }
@@ -45,5 +49,6 @@ class Dog {
       origin: map['origin'],
       icon: map['icon'],
       originIcon: map['originIcon'],
+      isFavorite: map['isFavorite'],
       overview: map['overview']);
 }

@@ -18,6 +18,7 @@ class DbHelper {
   static final _columnOrigin = 'origin';
   static final columnOverview = 'overview';
   static final columnHistory = 'history';
+  static final columnIsFavorite = 'isFavorite';
 
   // make this a singleton class
   DbHelper._();
@@ -55,7 +56,8 @@ class DbHelper {
             $_columnName TEXT NOT NULL,
             $_columnOrigin TEXT NOT NULL,
             $columnOverview TEXT NOT NULL,
-            $columnHistory TEXT NOT NULL
+            $columnHistory TEXT NOT NULL,
+            $columnIsFavorite BOOLEAN NOT NULL
           )
           ''');
   }
@@ -90,10 +92,12 @@ class DbHelper {
 
   // We are assuming here that the id column in the map is set. The other
   // column values will be used to update the row.
-  Future<int> update(Map<String, dynamic> row) async {
+  Future<int> update(Dog dog) async {
     Database db = await instance.database;
+    var row = dog.toMap();
     int id = row[_columnId];
-    return await db.update(_table, row, where: '$_columnId = ?', whereArgs: [id]);
+    return await db
+        .update(_table, row, where: '$_columnId = ?', whereArgs: [id]);
   }
 
   // Deletes the row specified by the id. The number of affected rows is

@@ -29,6 +29,8 @@ class _DogListState extends State<DogList> {
           builder: (BuildContext context, AsyncSnapshot<List<Dog>> snapshot) {
             if (snapshot.hasData) {
               return _buildList(context, snapshot.data);
+            } else {
+              return _buildList(context, []);
             }
           },
         ),

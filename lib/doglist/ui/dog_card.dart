@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:instazoo/dog/model/dog.dart';
+import 'package:instazoo/dog/repo/db_helper.dart';
 import 'package:instazoo/dog/ui/dog_profile.dart';
 
-class DogCard extends StatelessWidget {
+class DogCard extends StatefulWidget {
   final Dog _dog;
 
   DogCard(this._dog);
+
+  @override
+  _DogCardState createState() => _DogCardState(_dog);
+}
+
+class _DogCardState extends State<DogCard> {
+  Dog _dog;
+
+  _DogCardState(this._dog);
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +86,31 @@ class DogCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.only(left: 16, right: 16, top: 8),
                 child: Text(
                   _dog.overview,
                   textAlign: TextAlign.justify,
-                  maxLines: 3,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.body2,
                 ),
               ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  icon: _dog.isFavorite == 1
+                      ? Icon(
+                          Icons.favorite,
+                          color: Theme.of(context).primaryColor,
+                        )
+                      : Icon(Icons.favorite_border),
+                  onPressed: () {
+                    _dog.isFavorite = -_dog.isFavorite;
+                    DbHelper.instance.update(_dog);
+                    setState(() {});
+                  },
+                ),
+              )
             ],
           ),
         ),
