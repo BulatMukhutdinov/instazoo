@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:instazoo/dog/model/dog.dart';
 import 'package:instazoo/dog/repo/db_helper.dart';
 import 'package:instazoo/doglist/ui/dog_card.dart';
+import 'package:instazoo/favorites/ui/favorite_list.dart';
 
 class DogList extends StatefulWidget {
   @override
@@ -22,6 +23,19 @@ class _DogListState extends State<DogList> {
       appBar: AppBar(
         title: Text("Insta Zoo"),
         elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0 : 4,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavoriteList(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
         child: FutureBuilder(

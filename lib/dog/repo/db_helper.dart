@@ -100,6 +100,30 @@ class DbHelper {
         .update(_table, row, where: '$_columnId = ?', whereArgs: [id]);
   }
 
+  // Get all the rows where criteria is met
+  Future<List<Dog>> where(Map<String, dynamic> criteria) async {
+    Database db = await instance.database;
+    String delimiter = "AND ";
+    String where = "";
+    criteria.forEach((key, value) {
+      where += "$key = $value $delimiter";
+    });
+
+    if (where.isNotEmpty) {
+      where = where.substring(0, where.length - delimiter.length);
+    }
+
+    List<Map<String, dynamic>> dogsRaw = await db.query(_table, where: where);
+
+    var result = <Dog>[];
+
+    dogsRaw.forEach((raw) {
+      result.add(Dog.fromMap(raw));
+    });
+
+    return result;
+  }
+
   // Deletes the row specified by the id. The number of affected rows is
   // returned. This should be 1 as long as the row exists.
   Future<int> delete(int id) async {
